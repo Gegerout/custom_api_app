@@ -9,19 +9,36 @@ class EmployeesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(getEmployeesProvider).when(
         data: (value) {
-          return ListView.builder(
-            itemCount: value.length,
-              itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(value[index].name),
-              subtitle: Text(value[index].salary.toString()),
-            );
-          });
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Employees"),
+            ),
+            body: ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(value[index].name),
+                    subtitle: Text(value[index].salary.toString()),
+                  );
+                }),
+          );
         },
         error: (error, stacktrace) {
-      return Center(
-        child: Text(error.toString()),
-      );
-    }, loading: () => const Center(child: CircularProgressIndicator(),));
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Employees"),
+            ),
+            body: Center(
+              child: Text(error.toString()),
+            ),
+          );
+        },
+        loading: () => Scaffold(
+            appBar: AppBar(
+              title: const Text("Employees"),
+            ),
+                body: const Center(
+              child: CircularProgressIndicator(),
+            )));
   }
 }
