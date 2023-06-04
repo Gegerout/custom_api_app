@@ -13,19 +13,25 @@ class DataRepository extends Repository {
     var dir = await getTemporaryDirectory();
     File file = File("${dir.path}/employeeData.json");
     if(file.existsSync()) {
-      print("Local data");
       final data = await LocalStorage().loadData();
       final employees = (data["data"] as List).map((value) => EmployeeModel.fromJson(value)).toList();
       final usecase = EmployeeUseCase(employees);
       return usecase;
     }
     else {
-      print("Remote data");
       final data = await RemoteData().getData();
       final employees = (data["data"] as List).map((value) => EmployeeModel.fromJson(value)).toList();
       file.writeAsStringSync(json.encode(data), flush: true, mode: FileMode.write);
       final usecase = EmployeeUseCase(employees);
       return usecase;
     }
+  }
+
+  @override
+  Future<void> createEmployee(String name, String salary, String age) async {
+    await RemoteData().createEmployee(name, salary, age);
+    var dir = await getTemporaryDirectory();
+    File file = File("${dir.path}/employeeData.json");
+    file.deleteSync();
   }
 }

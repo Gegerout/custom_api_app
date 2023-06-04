@@ -1,4 +1,5 @@
 import 'package:custom_api_app/dummy/presentation/states/employees_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,6 +25,9 @@ class EmployeesPage extends ConsumerWidget {
           );
         },
         error: (error, stacktrace) {
+          if(error is DioError) {
+            ref.refresh(getEmployeesProvider).value;
+          }
           return Scaffold(
             appBar: AppBar(
               title: const Text("Employees"),

@@ -1,3 +1,4 @@
+import 'package:custom_api_app/dummy/presentation/pages/edit_employee_page.dart';
 import 'package:custom_api_app/dummy/presentation/pages/employees_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> pages = [
     EmployeesPage(),
-    EmployeesPage()
+    EditEmployeePage()
   ];
 
   @override
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.list), label: "Employees"),
-          NavigationDestination(icon: Icon(Icons.list), label: "Employees")
+          NavigationDestination(icon: Icon(Icons.edit), label: "Edit")
         ],
         onDestinationSelected: (index) {
           setState(() {
