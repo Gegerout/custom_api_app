@@ -58,6 +58,21 @@ class RemoteData {
           }
         }
     ));
+  }
+
+  Future<void> deleteEmployee(String id) async {
+    const String apiUrl = "https://dummy.restapiexample.com/api/v1/delete";
+    final Dio dio = Dio();
+    final response = await dio.get("$apiUrl/$id", options: Options(
+        validateStatus: (status) {
+          if(status == 429 || status == 200) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+    ));
     print(response);
   }
 }

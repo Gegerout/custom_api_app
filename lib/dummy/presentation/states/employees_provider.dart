@@ -47,4 +47,8 @@ class EditEmployeeProvider extends ChangeNotifier {
   void updateEmployee(String name, String salary, String age, String id) async {
     await DataRepository().updateEmployee(name, salary, age, id);
   }
+
+  void deleteEmployee(String id) async {
+    await DataRepository().deleteEmployee(id);
+  }
 }

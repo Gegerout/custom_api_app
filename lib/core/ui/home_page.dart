@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.list), label: "Employees"),
-          NavigationDestination(icon: Icon(Icons.edit), label: "Edit")
+          NavigationDestination(icon: Icon(Icons.edit), label: "Edit employee")
         ],
         onDestinationSelected: (index) {
           setState(() {

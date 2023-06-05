@@ -29,6 +29,7 @@ class EditEmployeePage extends ConsumerWidget {
                 child: Center(
                   child: TextField(
                     controller: idCont,
+                    keyboardType: TextInputType.number,
                     onChanged: (value) {
                       ref.read(editEmployeeController.notifier).checkEmployeeId(value);
                     },
@@ -39,7 +40,8 @@ class EditEmployeePage extends ConsumerWidget {
                             title: const Text("What you want to do?"),
                             actions: [
                               TextButton(onPressed: () {
-
+                                ref.read(editEmployeeController.notifier).deleteEmployee(idCont.text);
+                                Navigator.pop(context);
                               }, child: const Text("Delete", style: TextStyle(color: Colors.red, fontSize: 16),)),
                               TextButton(onPressed: () {
                                 pageController.animateToPage(1, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
