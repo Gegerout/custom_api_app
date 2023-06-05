@@ -7,6 +7,7 @@ class EditEmployeePage extends ConsumerWidget {
   EditEmployeePage({Key? key}) : super(key: key);
 
   final PageController pageController = PageController();
+  final TextEditingController idCont = TextEditingController();
   final TextEditingController nameCont = TextEditingController();
   final TextEditingController salaryCont = TextEditingController();
   final TextEditingController ageCont = TextEditingController();
@@ -27,16 +28,39 @@ class EditEmployeePage extends ConsumerWidget {
                 padding: const EdgeInsets.all(20),
                 child: Center(
                   child: TextField(
+                    controller: idCont,
+                    onChanged: (value) {
+                      ref.read(editEmployeeController.notifier).checkEmployeeId(value);
+                    },
                     onSubmitted: (value) {
-                      if(value.isNotEmpty) {
-                        pageController.animateToPage(1, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                      if(value.isNotEmpty && ref.watch(editEmployeeController).isEmployee) {
+                        showDialog(context: context, builder: (context) {
+                          return AlertDialog(
+                            title: const Text("What you want to do?"),
+                            actions: [
+                              TextButton(onPressed: () {
+
+                              }, child: const Text("Delete", style: TextStyle(color: Colors.red, fontSize: 16),)),
+                              TextButton(onPressed: () {
+                                pageController.animateToPage(1, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                                Navigator.pop(context);
+                              }, child: const Text("Edit", style: TextStyle(fontSize: 16),))
+                            ],
+                          );
+                        });
                       }
                     },
                     decoration: InputDecoration(
                         hintText: "Employee id",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)
-                        )
+                            borderRadius: BorderRadius.circular(15),
+                        ),
+                      enabledBorder: ref.watch(editEmployeeController).isEmployee ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                      ) : OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: const BorderSide(color: Colors.red)
+                      )
                     ),
                   ),
                 ),
@@ -131,11 +155,13 @@ class EditEmployeePage extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(20),
             child: TextField(
+              controller: nameCont,
                 onSubmitted: (value) {
                   if(value.isNotEmpty) {
                     pageController.animateToPage(2, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                   }
                 },
+              autofocus: true,
                 decoration: InputDecoration(
                     hintText: "Employee name",
                     border: OutlineInputBorder(
@@ -147,11 +173,13 @@ class EditEmployeePage extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(20),
             child: TextField(
+              controller: salaryCont,
                 onSubmitted: (value) {
                   if(value.isNotEmpty) {
                     pageController.animateToPage(3, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                   }
                 },
+              autofocus: true,
                 decoration: InputDecoration(
                     hintText: "Employee salary",
                     border: OutlineInputBorder(
@@ -160,17 +188,26 @@ class EditEmployeePage extends ConsumerWidget {
                 ),
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-                decoration: InputDecoration(
-                    hintText: "Employee age",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)
-                    )
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: TextField(
+                  controller: ageCont,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                      hintText: "Employee age",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)
+                      )
+                  ),
                 ),
               ),
-            ),
+              FilledButton(onPressed: () {
+                ref.read(editEmployeeController.notifier).updateEmployee(nameCont.text, salaryCont.text, ageCont.text, idCont.text);
+              }, child: const Text("Update"))
+            ],
+          )
         ],
       )
     );

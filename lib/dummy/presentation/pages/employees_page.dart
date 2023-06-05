@@ -43,6 +43,8 @@ class EmployeesPage extends ConsumerWidget {
             ),
                 body: const Center(
               child: CircularProgressIndicator(),
-            )));
+            )
+        )
+    );
   }
 }

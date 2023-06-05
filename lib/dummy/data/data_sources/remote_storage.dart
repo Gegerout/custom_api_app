@@ -18,7 +18,7 @@ class RemoteData {
       return response.data;
     }
     else {
-      return "Plese wait a bit";
+      return "Please wait a bit";
     }
   }
 
@@ -39,5 +39,25 @@ class RemoteData {
           }
         }
     ));
+  }
+
+  Future<void> updateEmployee(String name, String salary, String age, String id) async {
+    const String apiUrl = "https://dummy.restapiexample.com/api/v1/update";
+    final Dio dio = Dio();
+    final response = await dio.put("$apiUrl/$id", queryParameters: {
+      "name": name,
+      "salary": salary,
+      "age": age
+    }, options: Options(
+        validateStatus: (status) {
+          if(status == 429 || status == 200) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+    ));
+    print(response);
   }
 }

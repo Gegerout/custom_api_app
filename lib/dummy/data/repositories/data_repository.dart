@@ -34,4 +34,12 @@ class DataRepository extends Repository {
     File file = File("${dir.path}/employeeData.json");
     file.deleteSync();
   }
+
+  @override
+  Future<void> updateEmployee(String name, String salary, String age, String id) async {
+    await RemoteData().updateEmployee(name, salary, age, id);
+    var dir = await getTemporaryDirectory();
+    File file = File("${dir.path}/employeeData.json");
+    file.deleteSync();
+  }
 }

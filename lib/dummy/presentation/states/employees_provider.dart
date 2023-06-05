@@ -13,6 +13,7 @@ final editEmployeeController = ChangeNotifierProvider<EditEmployeeProvider>((ref
 
 class EditEmployeeProvider extends ChangeNotifier {
   bool isValid = false;
+  bool isEmployee = true;
 
   void checkEmployeeCreate(String name, String salary, String age) {
     if(name != "" && salary != "" && age != "") {
@@ -26,5 +27,24 @@ class EditEmployeeProvider extends ChangeNotifier {
 
   void createEmployee(String name, String salary, String age) async {
     await DataRepository().createEmployee(name, salary, age);
+  }
+
+  void checkEmployeeId(String id) async {
+    final data = await DataRepository().loadData();
+    final model = data.employees;
+    for (var element in model) {
+      if(element.id == id) {
+        isEmployee = true;
+        break;
+      }
+      else {
+        isEmployee = false;
+      }
+      notifyListeners();
+    }
+  }
+
+  void updateEmployee(String name, String salary, String age, String id) async {
+    await DataRepository().updateEmployee(name, salary, age, id);
   }
 }
