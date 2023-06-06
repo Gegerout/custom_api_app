@@ -18,13 +18,19 @@ class DataRepository extends Repository {
     File file = File("${dir.path}/usersData.json");
     if(file.existsSync()) {
       final data = await LocalStorage().loadUserData();
-      final users = (data["data"] as List).map((value) => UserModel.fromJson(value)).toList();
+      final users = (data[0]["data"] as List).map((value) => UserModel.fromJson(value)).toList();
+      for(Map<String, dynamic> element in data[1]["data"] as List) {
+        users.add(UserModel.fromJson(element));
+      }
       final usecase = UserUseCase(users);
       return usecase;
     }
     else {
       final data = await RemoteData().getUserData();
-      final users = (data["data"] as List).map((value) => UserModel.fromJson(value)).toList();
+      final users = (data[0]["data"] as List).map((value) => UserModel.fromJson(value)).toList();
+      for(Map<String, dynamic> element in data[1]["data"] as List) {
+        users.add(UserModel.fromJson(element));
+      }
       file.writeAsStringSync(json.encode(data), flush: true, mode: FileMode.write);
       final usecase = UserUseCase(users);
       return usecase;
@@ -37,13 +43,19 @@ class DataRepository extends Repository {
     File file = File("${dir.path}/resourcesData.json");
     if(file.existsSync()) {
       final data = await LocalStorage().loadResourceData();
-      final resources = (data["data"] as List).map((value) => ResourceModel.fromJson(value)).toList();
+      final resources = (data[0]["data"] as List).map((value) => ResourceModel.fromJson(value)).toList();
+      for(Map<String, dynamic> element in data[1]["data"] as List) {
+        resources.add(ResourceModel.fromJson(element));
+      }
       final usecase = ResourcesUseCase(resources);
       return usecase;
     }
     else {
       final data = await RemoteData().getResourceData();
-      final resources = (data["data"] as List).map((value) => ResourceModel.fromJson(value)).toList();
+      final resources = (data[0]["data"] as List).map((value) => ResourceModel.fromJson(value)).toList();
+      for(Map<String, dynamic> element in data[1]["data"] as List) {
+        resources.add(ResourceModel.fromJson(element));
+      }
       file.writeAsStringSync(json.encode(data), flush: true, mode: FileMode.write);
       final usecase = ResourcesUseCase(resources);
       return usecase;
