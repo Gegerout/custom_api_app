@@ -1,5 +1,6 @@
 import 'package:custom_api_app/dummy/presentation/pages/edit_employee_page.dart';
 import 'package:custom_api_app/dummy/presentation/pages/employees_page.dart';
+import 'package:custom_api_app/reqres/presentation/pages/recources_page.dart';
 import 'package:custom_api_app/reqres/presentation/pages/users_page.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,8 @@ class _HomePageState extends State<HomePage> {
   List<Widget> pages = [
     const EmployeesPage(),
     EditEmployeePage(),
-    const UsersPage()
+    const UsersPage(),
+    const ResourcesPage()
   ];
 
   @override
@@ -27,7 +29,8 @@ class _HomePageState extends State<HomePage> {
         destinations: const [
           NavigationDestination(icon: Icon(Icons.list), label: "Employees"),
           NavigationDestination(icon: Icon(Icons.edit), label: "Edit employee"),
-          NavigationDestination(icon: Icon(Icons.person), label: "Users")
+          NavigationDestination(icon: Icon(Icons.person), label: "Users"),
+          NavigationDestination(icon: Icon(Icons.color_lens), label: "Resources")
         ],
         onDestinationSelected: (index) {
           setState(() {
