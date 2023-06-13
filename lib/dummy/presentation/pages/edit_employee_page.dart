@@ -69,7 +69,8 @@ class EditEmployeePage extends ConsumerWidget {
               ),
               const Center(child: Text("Don't have id?")),
               FilledButton(onPressed: () {
-                showBottomSheet(context: context,
+                showModalBottomSheet(
+                    context: context,
                     constraints: const BoxConstraints(
                       maxHeight: 500
                     ),
@@ -207,6 +208,7 @@ class EditEmployeePage extends ConsumerWidget {
               ),
               FilledButton(onPressed: () {
                 ref.read(editEmployeeController.notifier).updateEmployee(nameCont.text, salaryCont.text, ageCont.text, idCont.text);
+                Navigator.pop(context);
               }, child: const Text("Update"))
             ],
           )

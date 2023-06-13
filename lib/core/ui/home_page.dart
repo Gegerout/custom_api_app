@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> pages = [
     const EmployeesPage(),
-    EditEmployeePage(),
     const UsersPage(),
     const ResourcesPage()
   ];
@@ -28,7 +27,6 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.list), label: "Employees"),
-          NavigationDestination(icon: Icon(Icons.edit), label: "Edit employee"),
           NavigationDestination(icon: Icon(Icons.person), label: "Users"),
           NavigationDestination(icon: Icon(Icons.color_lens), label: "Resources")
         ],
@@ -39,6 +37,12 @@ class _HomePageState extends State<HomePage> {
         },
         selectedIndex: currentPage,
       ),
+      floatingActionButton: currentPage == 0 ? FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => EditEmployeePage()));
+        },
+        child: const Icon(Icons.edit),
+      ) : null,
     );
   }
 }
