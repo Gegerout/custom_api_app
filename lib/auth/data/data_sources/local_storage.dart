@@ -14,7 +14,7 @@ class LocalStorage {
   Future<AuthModel> loadToken() async {
     var dir = await getTemporaryDirectory();
     final File file = File("${dir.path}/userToken.json");
-    final model = AuthModel(token: json.decode(file.readAsStringSync())["token"]);
+    final model = AuthModel(token: json.decode(file.readAsStringSync()));
     return model;
   }
 }

@@ -24,10 +24,10 @@ class MyApp extends ConsumerWidget {
         home: ref.watch(tokenProvider).when(
             data: (value) {
               if (value.token != null) {
-                return const Scaffold(
-                    resizeToAvoidBottomInset: false, body: HomePage());
+                return Scaffold(
+                    resizeToAvoidBottomInset: false, body: LoginPage());
               }
-              return const Scaffold(
+              return Scaffold(
                   resizeToAvoidBottomInset: false, body: LoginPage());
             },
             error: (error, stacktrace) {
