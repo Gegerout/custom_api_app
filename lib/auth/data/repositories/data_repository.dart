@@ -19,4 +19,14 @@ class DataRepository extends Repository {
     final model = await LocalStorage().loadToken();
     return AuthUseCase(token: model.token);
   }
+
+  @override
+  Future<AuthUseCase> signupUser(String email, String password) async {
+    final data = await RemoteData().loginUser(email, password);
+    if(data.token != null) {
+      await LocalStorage().loginUser(data.token!);
+      return AuthUseCase(token: data.token);
+    }
+    return AuthUseCase(token: null);
+  }
 }

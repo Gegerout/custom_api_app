@@ -17,4 +17,10 @@ class AuthNotifier extends ChangeNotifier {
     token = data.token;
     notifyListeners();
   }
+
+  Future<void> signupUser(String email, String password) async {
+    final data = await DataRepository().signupUser(email, password);
+    token = data.token;
+    notifyListeners();
+  }
 }

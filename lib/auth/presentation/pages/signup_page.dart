@@ -1,14 +1,18 @@
 import 'package:custom_api_app/auth/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignupPage extends StatelessWidget {
+import '../../../core/ui/home_page.dart';
+import '../states/auth_provider.dart';
+
+class SignupPage extends ConsumerWidget {
   SignupPage({Key? key}) : super(key: key);
 
   final TextEditingController emailCont = TextEditingController();
   final TextEditingController passwordCont = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -18,7 +22,7 @@ class SignupPage extends StatelessWidget {
       body: Form(
         key: formKey,
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: CustomScrollView(
             slivers: [
               SliverFillRemaining(
@@ -47,7 +51,7 @@ class SignupPage extends StatelessWidget {
                       TextFormField(
                         controller: passwordCont,
                         validator: (value) {
-                          if(value == null || value.isEmpty || !RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$").hasMatch(value)) {
+                          if(value == null || value.isEmpty || value.length < 6) {
                             return "Please enter correct password";
                           }
                           return null;
@@ -66,7 +70,11 @@ class SignupPage extends StatelessWidget {
                         height: 50,
                         child: FilledButton.tonal(onPressed: () {
                           if(formKey.currentState!.validate()) {
-                            //ref.read(authProvider).loginUser(emailCont.text, passwordCont.text);
+                            ref.read(authProvider).signupUser(emailCont.text, passwordCont.text).then((value) {
+                              if(ref.watch(authProvider).token != null) {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                              }
+                            });
                           }
                         }, child: const Text("Signup")),
                       ),

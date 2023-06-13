@@ -1,5 +1,6 @@
 import 'package:custom_api_app/auth/presentation/pages/signup_page.dart';
 import 'package:custom_api_app/auth/presentation/states/auth_provider.dart';
+import 'package:custom_api_app/core/ui/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,7 +50,7 @@ class LoginPage extends ConsumerWidget {
                         TextFormField(
                           controller: passwordCont,
                           validator: (value) {
-                            if(value == null || value.isEmpty || !RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$").hasMatch(value)) {
+                            if(value == null || value.isEmpty || value.length < 6) {
                               return "Please enter correct password";
                             }
                             return null;
@@ -68,7 +69,11 @@ class LoginPage extends ConsumerWidget {
                           height: 50,
                           child: FilledButton.tonal(onPressed: () {
                             if(formKey.currentState!.validate()) {
-                              ref.read(authProvider).loginUser(emailCont.text, passwordCont.text);
+                              ref.read(authProvider).loginUser(emailCont.text, passwordCont.text).then((value) {
+                                if(ref.watch(authProvider).token != null) {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                                }
+                              });
                             }
                           }, child: const Text("Login")),
                         ),
