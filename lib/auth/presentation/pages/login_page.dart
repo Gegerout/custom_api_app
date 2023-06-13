@@ -48,6 +48,7 @@ class LoginPage extends ConsumerWidget {
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
+                          obscureText: true,
                           controller: passwordCont,
                           validator: (value) {
                             if(value == null || value.isEmpty || value.length < 6) {
